@@ -1,6 +1,6 @@
 {
-  "name": "RAZIF Super-Messenger",
-  "description": "A powerful multi-platform super-messenger with AI integration, real-time sync, and local storage.",
+  "name": "NASA DEF Super-Messenger",
+  "description": "The official communication and AI service platform for NASA DEF Sdn Bhd, integrating IoT monitoring and AI Service Agent (AISA).",
   "requestFramePermissions": [
     "camera",
     "microphone",

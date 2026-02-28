@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
+  BrowserRouter, 
+  Routes, 
+  Route, 
+  Link, 
+  useNavigate,
+  useLocation,
+  useParams
+} from 'react-router-dom';
+import { 
   Send, 
   MessageCircle, 
   Facebook, 
@@ -29,7 +38,24 @@ import {
   UserPlus,
   Users,
   Compass,
-  Plus
+  Plus,
+  Waves,
+  ShieldCheck,
+  Eye,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  Globe,
+  Cpu,
+  Server,
+  Zap,
+  Monitor,
+  Hand,
+  MessageSquare,
+  Info,
+  Copy,
+  Check,
+  Home
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Channel, Message } from './types';
@@ -51,7 +77,8 @@ interface UserData {
   avatar: string;
 }
 
-export default function App() {
+export function MessengerApp() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserData | null>(null);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [username, setUsername] = useState('');
@@ -314,7 +341,7 @@ export default function App() {
       body: JSON.stringify(userMsg)
     });
     
-    if (activeChannel.id === 'ai' || inputValue.toLowerCase().startsWith('/ai')) {
+    if (activeChannel.id === 'aisa' || inputValue.toLowerCase().startsWith('/ai')) {
       setIsTyping(true);
       try {
         const aiResponse = await chatWithGemini(inputValue);
@@ -323,7 +350,7 @@ export default function App() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             channel: activeChannel.id,
-            sender_name: 'RAZIF AI',
+            sender_name: 'AISA (NASA DEF)',
             sender_id: 0,
             content: aiResponse,
             is_ai: 1
@@ -363,7 +390,7 @@ export default function App() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             channel: activeChannel.id,
-            sender_name: 'RAZIF AI',
+            sender_name: 'AISA (NASA DEF)',
             sender_id: 0,
             content: content,
             is_ai: 1
@@ -511,6 +538,9 @@ export default function App() {
       case 'Mail': return <Mail size={20} />;
       case 'Bot': return <Bot size={20} />;
       case 'User': return <User size={20} />;
+      case 'Waves': return <Waves size={20} />;
+      case 'ShieldCheck': return <ShieldCheck size={20} />;
+      case 'Eye': return <Eye size={20} />;
       default: return <MessageCircle size={20} />;
     }
   };
@@ -592,19 +622,51 @@ export default function App() {
         <div className="p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <Bot className="text-black" size={24} />
+              <Zap className="text-black" size={24} />
             </div>
-            <h1 className="hidden md:block font-bold text-xl tracking-tight">RAZIF</h1>
+            <h1 className="hidden md:block font-bold text-xl tracking-tight">NASA DEF</h1>
           </div>
-          <button 
-            onClick={() => setShowAddUser(true)}
-            className="hidden md:flex p-2 bg-white/5 hover:bg-white/10 rounded-lg text-emerald-500 transition-all"
-          >
-            <UserPlus size={18} />
-          </button>
+          <div className="flex gap-2">
+            <a 
+              href="https://nasadef.com.my/index.html"
+              className="hidden md:flex p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/50 transition-all"
+              title="NASA DEF Official Home"
+            >
+              <Home size={18} />
+            </a>
+            <button 
+              onClick={() => navigate('/')}
+              className="hidden md:flex p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/50 transition-all"
+              title="App Dashboard"
+            >
+              <Globe size={18} />
+            </button>
+            <button 
+              onClick={() => setShowAddUser(true)}
+              className="hidden md:flex p-2 bg-white/5 hover:bg-white/10 rounded-lg text-emerald-500 transition-all"
+            >
+              <UserPlus size={18} />
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 px-3 space-y-6 overflow-y-auto custom-scrollbar">
+          {/* RMeet Button */}
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-white/30 px-3 mb-2 hidden md:block">Meetings</div>
+            <button
+              onClick={() => navigate('/rmeet')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${
+                location.pathname.startsWith('/rmeet')
+                  ? 'bg-emerald-500/20 text-emerald-400 shadow-inner' 
+                  : 'text-white/50 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <Video size={20} />
+              <span className="hidden md:block font-medium text-sm">RMeet</span>
+            </button>
+          </div>
+
           {/* Channels */}
           <div>
             <div className="text-[10px] uppercase tracking-widest text-white/30 px-3 mb-2 hidden md:block">Channels</div>
@@ -1093,5 +1155,395 @@ export default function App() {
         }
       `}</style>
     </div>
+  );
+}
+
+function LandingPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="min-h-screen bg-[#050505] text-white font-sans overflow-x-hidden">
+      {/* Navbar */}
+      <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-lg border-b border-white/5 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+            <Zap size={20} className="text-black" />
+          </div>
+          <span className="text-xl font-bold tracking-tighter">NASA DEF</span>
+        </div>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
+          <a href="https://nasadef.com.my/index.html" className="flex items-center gap-1 hover:text-white transition-colors">
+            <Home size={16} /> Home
+          </a>
+          <a href="#about" className="hover:text-white transition-colors">About</a>
+          <a href="#products" className="hover:text-white transition-colors">Products</a>
+          <a href="#services" className="hover:text-white transition-colors">Services</a>
+          <button onClick={() => navigate('/messenger')} className="px-5 py-2 bg-emerald-500 text-black rounded-full font-bold hover:bg-emerald-400 transition-all">
+            Open Messenger
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-radial-gradient from-emerald-500/10 to-transparent blur-3xl -z-10" />
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-6xl md:text-8xl font-bold leading-none tracking-tighter mb-6">
+              Innovative <span className="text-emerald-500">Technology</span> for Your Business
+            </h1>
+            <p className="text-xl text-white/50 mb-8 max-w-lg">
+              Nasa Def Sdn Bhd specializes in IoT solutions and AI services for agriculture and surveillance sectors.
+            </p>
+            <div className="flex gap-4">
+              <button onClick={() => navigate('/messenger')} className="px-8 py-4 bg-emerald-500 text-black rounded-full font-bold text-lg hover:bg-emerald-400 transition-all flex items-center gap-2">
+                Get Started <ArrowRight size={20} />
+              </button>
+              <button className="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-bold text-lg hover:bg-white/10 transition-all">
+                Learn More
+              </button>
+            </div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="aspect-square bg-emerald-500/20 rounded-3xl overflow-hidden border border-emerald-500/30">
+              <img 
+                src="https://picsum.photos/seed/iot/800/800" 
+                alt="IoT Technology" 
+                className="w-full h-full object-cover mix-blend-overlay"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute bottom-8 left-8 right-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                    <Bot size={24} className="text-black" />
+                  </div>
+                  <span className="font-bold text-xl text-white">AISA AI Agent</span>
+                </div>
+                <p className="text-white/60 text-sm">Powered by NASA DEF AI Services</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-20 border-y border-white/5 bg-white/2">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { label: 'Active Devices', value: '10k+' },
+            { label: 'AI Requests/Day', value: '500k+' },
+            { label: 'Farms Protected', value: '2k+' },
+            { label: 'Uptime', value: '99.9%' }
+          ].map((stat, i) => (
+            <div key={i}>
+              <div className="text-4xl font-bold text-emerald-500 mb-1">{stat.value}</div>
+              <div className="text-sm text-white/40 uppercase tracking-widest">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Products */}
+      <section id="products" className="py-32 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">Our Products</h2>
+          <p className="text-white/50 max-w-2xl mx-auto text-lg">
+            Advanced IoT products designed specifically for farm security and surveillance.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: 'Farm Sense', desc: 'IoT Sensor Keselamatan Ladang', icon: <ShieldCheck size={32} /> },
+            { name: 'FloodSense', desc: 'Smart Flood Early Warning System', icon: <Waves size={32} /> },
+            { name: 'WildSec', desc: 'Pengawasan Hidupan Liar & Surveillance', icon: <Eye size={32} /> }
+          ].map((product, i) => (
+            <div key={i} className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all group">
+              <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-500 mb-6 group-hover:scale-110 transition-transform">
+                {product.icon}
+              </div>
+              <h3 className="text-2xl font-bold mb-2">{product.name}</h3>
+              <p className="text-white/50 mb-6">{product.desc}</p>
+              <button className="flex items-center gap-2 text-emerald-500 font-bold hover:gap-4 transition-all">
+                View Details <ChevronRight size={20} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 px-6 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+                <Zap size={20} className="text-black" />
+              </div>
+              <span className="text-xl font-bold tracking-tighter text-white">NASA DEF</span>
+            </div>
+            <p className="text-white/40 max-w-sm mb-8">
+              Nasa Def Sdn Bhd is committed to delivering innovative and reliable technology to help customers optimize their operations.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-white/10 transition-all"><Facebook size={20} /></a>
+              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-white/10 transition-all"><Instagram size={20} /></a>
+              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-white/10 transition-all"><Mail size={20} /></a>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-bold mb-6">Company</h4>
+            <ul className="space-y-4 text-white/40 text-sm">
+              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold mb-6">Contact</h4>
+            <ul className="space-y-4 text-white/40 text-sm">
+              <li>info@nasadef.com.my</li>
+              <li>+6017-4511455</li>
+              <li>Kuala Lumpur, Malaysia</li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-center text-white/20 text-xs">
+          &copy; 2026 NASA DEF SDN BHD. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function RMeet() {
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [participants, setParticipants] = useState([
+    { id: 1, name: 'You', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=You', isLocal: true },
+    { id: 2, name: 'AISA (NASA DEF)', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AISA', isLocal: false },
+    { id: 3, name: 'Engineer 1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Eng1', isLocal: false },
+  ]);
+  const [copied, setCopied] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
+  useEffect(() => {
+    async function setupCamera() {
+      try {
+        const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        setStream(s);
+        if (videoRef.current) videoRef.current.srcObject = s;
+      } catch (err) {
+        console.error("Camera error:", err);
+      }
+    }
+    setupCamera();
+    return () => {
+      stream?.getTracks().forEach(track => track.stop());
+    };
+  }, []);
+
+  const toggleMic = () => {
+    if (stream) {
+      stream.getAudioTracks().forEach(track => track.enabled = isMuted);
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const toggleVideo = () => {
+    if (stream) {
+      stream.getVideoTracks().forEach(track => track.enabled = isVideoOff);
+      setIsVideoOff(!isVideoOff);
+    }
+  };
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  if (!roomId) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-6">
+        <div className="max-w-4xl w-full grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="flex items-center gap-2 mb-8">
+              <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center">
+                <Video size={24} className="text-black" />
+              </div>
+              <span className="text-2xl font-bold tracking-tighter">RMeet</span>
+            </div>
+            <h1 className="text-5xl font-bold mb-6 leading-tight">Premium video meetings. Now free for everyone.</h1>
+            <p className="text-white/50 text-xl mb-10">We re-engineered the service we built for secure business meetings, RMeet, to make it free and available for all.</p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => navigate(`/rmeet/${Math.random().toString(36).substring(7)}`)}
+                className="px-8 py-4 bg-emerald-500 text-black rounded-lg font-bold text-lg hover:bg-emerald-400 transition-all flex items-center gap-2 justify-center"
+              >
+                <Video size={20} /> New Meeting
+              </button>
+              <div className="flex-1 flex gap-2">
+                <input 
+                  type="text" 
+                  placeholder="Enter a code or link"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 focus:outline-none focus:border-emerald-500 transition-all"
+                />
+                <button className="px-6 py-4 text-emerald-500 font-bold hover:bg-white/5 rounded-lg transition-all">Join</button>
+              </div>
+            </div>
+            <div className="mt-12 pt-12 border-t border-white/5 flex flex-col gap-4">
+              <a href="https://nasadef.com.my/index.html" className="text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-2 font-medium">
+                <Home size={18} /> Go to Official Website
+              </a>
+              <button onClick={() => navigate('/')} className="text-white/40 hover:text-white transition-colors flex items-center gap-2">
+                <ArrowRight className="rotate-180" size={18} /> Back to App Dashboard
+              </button>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="aspect-video bg-white/5 rounded-3xl border border-white/10 overflow-hidden relative group">
+              <img src="https://picsum.photos/seed/meeting/800/450" className="w-full h-full object-cover opacity-50" alt="" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center animate-pulse">
+                  <Play size={32} className="text-black ml-1" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen bg-[#151619] text-white flex flex-col overflow-hidden">
+      {/* Main View */}
+      <div className="flex-1 p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto custom-scrollbar">
+        {participants.map(p => (
+          <div key={p.id} className="relative aspect-video bg-[#0a0a0a] rounded-2xl border border-white/5 overflow-hidden group">
+            {p.isLocal ? (
+              <video 
+                ref={videoRef} 
+                autoPlay 
+                muted 
+                playsInline 
+                className={`w-full h-full object-cover ${isVideoOff ? 'hidden' : ''}`}
+              />
+            ) : (
+              <img src={`https://picsum.photos/seed/user${p.id}/800/450`} className="w-full h-full object-cover opacity-80" alt="" />
+            )}
+            
+            {(p.isLocal && isVideoOff) || (!p.isLocal && false) ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]">
+                <img src={p.avatar} className="w-24 h-24 rounded-full border-4 border-white/10" alt="" />
+              </div>
+            ) : null}
+
+            <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-white/10">
+              {p.name} {p.isLocal && '(You)'}
+            </div>
+
+            {!p.isLocal && (
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="p-2 bg-black/50 backdrop-blur-md rounded-full border border-white/10 hover:bg-white/10">
+                  <MoreVertical size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="h-24 bg-[#0a0a0a] border-t border-white/5 px-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="hidden md:block">
+            <div className="text-sm font-medium">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} | {roomId}</div>
+          </div>
+          <button 
+            onClick={copyLink}
+            className="p-2 hover:bg-white/5 rounded-full transition-all text-white/60 hover:text-white"
+            title="Copy meeting link"
+          >
+            {copied ? <Check size={20} className="text-emerald-500" /> : <Copy size={20} />}
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={toggleMic}
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all border ${
+              isMuted ? 'bg-red-500 border-red-500 text-white' : 'bg-white/5 border-white/10 hover:bg-white/10'
+            }`}
+          >
+            {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
+          </button>
+          <button 
+            onClick={toggleVideo}
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all border ${
+              isVideoOff ? 'bg-red-500 border-red-500 text-white' : 'bg-white/5 border-white/10 hover:bg-white/10'
+            }`}
+          >
+            {isVideoOff ? <VideoOff size={20} /> : <Video size={20} />}
+          </button>
+          <button className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-all">
+            <Hand size={20} />
+          </button>
+          <button 
+            onClick={() => setIsScreenSharing(!isScreenSharing)}
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all border ${
+              isScreenSharing ? 'bg-emerald-500 border-emerald-500 text-black' : 'bg-white/5 border-white/10 hover:bg-white/10'
+            }`}
+          >
+            <Monitor size={20} />
+          </button>
+          <button 
+            onClick={() => navigate('/messenger')}
+            className="px-6 h-12 bg-red-500 hover:bg-red-600 text-white rounded-full font-bold transition-all flex items-center gap-2"
+          >
+            <Phone size={20} className="rotate-[135deg]" /> End Call
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button className="p-3 hover:bg-white/5 rounded-full transition-all text-white/60 hover:text-white">
+            <Info size={20} />
+          </button>
+          <button className="p-3 hover:bg-white/5 rounded-full transition-all text-white/60 hover:text-white">
+            <Users size={20} />
+          </button>
+          <button className="p-3 hover:bg-white/5 rounded-full transition-all text-white/60 hover:text-white">
+            <MessageSquare size={20} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/messenger" element={<MessengerApp />} />
+        <Route path="/rmeet" element={<RMeet />} />
+        <Route path="/rmeet/:roomId" element={<RMeet />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

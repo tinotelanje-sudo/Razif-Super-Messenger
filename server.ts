@@ -70,12 +70,20 @@ db.exec(`
 const channelCount = db.prepare("SELECT COUNT(*) as count FROM channels").get() as { count: number };
 if (channelCount.count === 0) {
   const insert = db.prepare("INSERT INTO channels (id, name, icon, type) VALUES (?, ?, ?, ?)");
+  insert.run("aisa", "AISA (NASA DEF AI)", "Bot", "ai");
+  insert.run("floodsense", "FloodSense Monitoring", "Waves", "iot");
+  insert.run("farmsense", "FarmSense Security", "ShieldCheck", "iot");
   insert.run("telegram", "Telegram", "Send", "messenger");
   insert.run("whatsapp", "WhatsApp", "MessageCircle", "messenger");
   insert.run("messenger", "Messenger", "Facebook", "messenger");
   insert.run("instagram", "Instagram", "Instagram", "social");
   insert.run("email", "Email", "Mail", "email");
-  insert.run("ai", "RAZIF AI", "Bot", "ai");
+}
+
+// Seed AISA user
+const aisaUser = db.prepare("SELECT * FROM users WHERE username = 'AISA'").get();
+if (!aisaUser) {
+  db.prepare("INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)").run("AISA", "system", "https://api.dicebear.com/7.x/bottts/svg?seed=AISA");
 }
 
 async function startServer() {
