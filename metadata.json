@@ -1,0 +1,9 @@
+{
+  "name": "RAZIF Super-Messenger",
+  "description": "A powerful multi-platform super-messenger with AI integration, real-time sync, and local storage.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
